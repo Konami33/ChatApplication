@@ -15,7 +15,7 @@ const sendMessage = async (req, res) => {
     const { roomId, userId, message } = req.body;
 
     try {
-        const message = await Message.create(roomId, userId, message);
+        const result = await Message.create(roomId, userId, message);
 
         res.status(201).json({
             message: 'Message sent',

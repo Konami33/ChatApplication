@@ -1,4 +1,4 @@
-const socketIO = require('socket.io');
+const { Server } = require('socket.io');
 const { sendMessage } = require('./controllers/chatController');
 
 /**
@@ -8,7 +8,7 @@ const { sendMessage } = require('./controllers/chatController');
  */
 
 const configureSocket = (server) => {
-    const io = socketIO(server, {
+    const io = new Server(server, {
         cors: {
             origin: process.env.CLIENT_URL || '*',
             methods: ['GET', 'POST']
