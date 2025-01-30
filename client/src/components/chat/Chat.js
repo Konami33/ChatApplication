@@ -22,7 +22,7 @@ function Chat() {
     if (!user) return;
     
     // Create socket connection with better error handling
-    socketRef.current = io('http://localhost:5000', {
+    socketRef.current = io(process.env.REACT_APP_API_URL || 'http://localhost:5000', {
         auth: {
             token: localStorage.getItem('token')
         },
