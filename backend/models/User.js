@@ -21,6 +21,14 @@ const User = {
     
         return result.rows[0];
     },
+    
+    async findById(userId) {
+        const result = await pool.query(
+            'SELECT id, username FROM users WHERE id = $1',
+            [userId]
+        );
+        return result.rows[0];
+    },
 };
 
 module.exports = User;

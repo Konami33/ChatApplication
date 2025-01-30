@@ -24,8 +24,27 @@ export const auth = {
 export const chat = {
   getRooms: () => api.get('/chat/rooms'),
   getMessages: (roomId) => api.get(`/chat/rooms/${roomId}/messages`),
-  sendMessage: (roomId, userId, message) => 
-    api.post('/chat/message', { roomId, userId, message }),
+  sendMessage: (roomId, message) => api.post('/chat/message', { 
+    roomId, 
+    message 
+  }),
+  createRoom: (name) => api.post('/chat/rooms', { name }),
+  getRoomUsers: (roomId) => api.get(`/chat/rooms/${roomId}/users`),
+  getRoomById: (roomId) => api.get(`/chat/rooms/${roomId}`).catch(error => {
+    if (error.response?.status === 404) {
+      throw new Error('Room not found');
+    }
+    throw error;
+  }),
+  joinRoom: (roomId) => api.post(`/chat/rooms/${roomId}/join`).catch(error => {
+    if (error.response?.status === 404) {
+      throw new Error('Room not found');
+    }
+    if (error.response?.status === 409) {
+      throw new Error('Already a member of this room');
+    }
+    throw error;
+  }),
 };
 
 export default api; 

@@ -13,7 +13,12 @@ const server = http.createServer(app);
 const io = configureSocket(server);
 
 
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "OPTIONS"],
+    credentials: true,
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
 app.use(express.json());
 
 // Routes
@@ -35,8 +40,8 @@ app.use((req, res, next) => {
 
 // Centralized error handling middleware
 app.use((err, req, res, next) => {
-    console.error('Error:', err.message);
-    res.status(err.status || 500).json({ error: err.message || 'Internal Server Error' });
+    console.error('Server error:', err.stack);
+    res.status(500).json({ error: 'Internal Server Error' });
 });
 
 

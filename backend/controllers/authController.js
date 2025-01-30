@@ -36,7 +36,18 @@ const login = async (req, res) => {
         }
 
         const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.json({ token, message: 'Login successful' });
+        
+        // Send user data without password
+        const userData = {
+            id: user.id,
+            username: user.username
+        };
+
+        res.json({ 
+            token, 
+            user: userData,
+            message: 'Login successful' 
+        });
 
     } catch (error) {
         res.status(500).json({
